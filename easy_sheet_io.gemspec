@@ -10,14 +10,14 @@ Gem::Specification.new do |spec|
 
   spec.summary       = "A simple way to Open .csv, .xls, .xlsx files."
   spec.description   = "A simple way to Open .csv, .xls, .xlsx files. You can convert it to 2D Array, Hash, Dataframe."
-  spec.homepage      = "https://github.com/show-o-atakun/easy_sheet_io_gemspec"
+  spec.homepage      = "https://github.com/show-o-atakun/easy_sheet_io"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
 
   # spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
   spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "https://github.com/show-o-atakun/easy_sheet_io_gemspec"
+  spec.metadata["source_code_uri"] = "https://github.com/show-o-atakun/easy_sheet_io"
   ## spec.metadata["changelog_uri"] = "https://github.com/show-o-atakun/easy_sheet_io_gemspec"
 
   # Specify which files should be added to the gem when it is released.
