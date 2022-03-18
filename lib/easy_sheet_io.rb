@@ -4,9 +4,8 @@ require "roo-xls"
 require "spreadsheet"
 require "rover"
 require "daru"
-require "./to_csv"
-require "./longest_line"
-
+require_relative "./to_csv"
+require_relative "./longest_line"
 require_relative "easy_sheet_io/version"
 
 module EasySheetIo
