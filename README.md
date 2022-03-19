@@ -34,6 +34,7 @@ df_r = EasySheetIo.read("sample.xls", format: "rover")  ## Rover::DataFrame
 
 You can designate header row number with header option.
 If you want to ignore some beggining lines, you use line_from option. 
+(These options are for Hash, Dataframe.)
 
 ```ruby
 require 'easy_sheet_io'
