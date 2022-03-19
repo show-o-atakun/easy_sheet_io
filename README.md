@@ -46,7 +46,7 @@ When you set header: nil, then default header ("column1", "column2", ...) is set
 
 ## TODO
 
-line_until option, regular expression support for option, Numo::NArray support, method to write .xls and .xlsx
+line_until option, regular expression support for options, Numo::NArray support, method to write .xls and .xlsx
 
 ## Development
 
