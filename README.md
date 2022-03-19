@@ -42,3 +42,11 @@ df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10)
 ```
 
 When you set header: nil, then default header ("column1", "column2", ...) is set.
+
+## TODO
+
+line_until option, regular expression support for option, Numo::NArray support, method to write .xls and .xlsx
+
+## License
+
+The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
