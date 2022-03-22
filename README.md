@@ -32,17 +32,20 @@ df_d = EasySheetIo.read("sample.xls", format: "daru")   ## Daru::DataFrame
 df_r = EasySheetIo.read("sample.xls", format: "rover")  ## Rover::DataFrame
 ```
 
-You can designate header row number with header option.
-If you want to ignore some beggining lines, you use line_from option. 
+You can designate header row number with header: option.
+If you want to ignore some beggining lines, you use line_from: option.
+Option line_until: is for the last lines.
 (These options are for Hash, Dataframe.)
 
 ```ruby
 require 'easy_sheet_io'
 
-df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10)
+df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10, line_until: 200)
 ```
 
 When you set header: nil, then default header ("column1", "column2", ...) is set.
+
+Option encoding: is available for CSV reading only at present.
 
 ## TODO
 
