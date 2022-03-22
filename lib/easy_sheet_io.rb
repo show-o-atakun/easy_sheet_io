@@ -19,24 +19,30 @@ module EasySheetIo
 	
 	# ##Generate DF from CSV File
 	# **opt candidate= line_from: 1, header: 0
-	def read_csv(path, format: :hash, **opt)
-		csv = CSV.parse(File.open path, &:read) # Get 2D Array
+	def read_csv(path, format: nil, encoding: "utf-8", **opt)
+		csv = CSV.parse(File.open path, encoding: encoding, &:read) # Get 2D Array
+		return csv if format.nil?
+
 		ans = to_hash(csv, **opt)
 		return format==:hash || format=="hash" ? ans : to_df(ans, format: format)
 	end
 
 	# ##Generate DF from Excel File
 	# **opt candidate= line_from: 1, header: 0)
-	def read_excel(path, sheet_i: 0, format: :hash, **opt)
+	# !encoding parameter is not allowed yet
+	# !(Finally, I want to make it automatically recognize encoding of file).
+	def read_excel(path, sheet_i: 0, format: nil, **opt)
 		a2d = open_excel(path, sheet_i) # Get 2D Array
+		return a2d if format.nil?
+		
 		ans = to_hash(a2d, **opt)
 		return format==:hash || format=="hash" ? ans : to_df(ans, format: format)
 	end
 	
 	# Convert 2d Array to Hash
 	# ##header: nil -> Default Headers(:column1, column2,...) are generated.
-	def to_hash(array2d, line_from: 1, header: 0)
-		output = array2d[line_from..]
+	def to_hash(array2d, line_from: 1, line_until: -1, header: 0)
+		output = array2d[line_from..line_until]
 		hd = header.nil? ? [*0...(output.longest_line)].map{"column#{_1}"} : array2d[header]
 		output_transpose = output[0].zip(*output[1..])
 		
