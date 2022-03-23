@@ -27,9 +27,9 @@ If you want a hash, or dataframe, format option is helpful.
 ```ruby
 require 'easy_sheet_io'
 
-hash = EasySheetIo.read("sample.xls", format: "hash")   ## Hash
-df_d = EasySheetIo.read("sample.xls", format: "daru")   ## Daru::DataFrame
-df_r = EasySheetIo.read("sample.xls", format: "rover")  ## Rover::DataFrame
+hash = EasySheetIo.read("sample.xlsx", format: "hash")   ## Hash
+df_d = EasySheetIo.read("sample.xlsx", format: "daru")   ## Daru::DataFrame
+df_r = EasySheetIo.read("sample.xlsx", format: "rover")  ## Rover::DataFrame
 ```
 
 ## Header, Ignored Lines
@@ -44,8 +44,8 @@ You can designate regular expressions as line_from, line_until options.
 ```ruby
 require 'easy_sheet_io'
 
-df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10, line_until: 200)
-df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10, line_until: /END OF MAIN DATA/)
+df = EasySheetIo.read("sample.xlsx", format: "rover", header: 7, line_from: 10, line_until: 200)
+df = EasySheetIo.read("sample.xlsx", format: "rover", header: 7, line_from: 10, line_until: /END OF MAIN DATA/)
 ```
 
 Note that line_until option means the designated line is **not** included in output data. That is, *line_until: -1* means the last line is not included.
