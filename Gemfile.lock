@@ -72,6 +72,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  ast
   daru
   easy_sheet_io!
   rake (~> 13.0)

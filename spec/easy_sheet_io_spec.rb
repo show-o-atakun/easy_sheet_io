@@ -29,7 +29,14 @@ RSpec.describe EasySheetIo do
   end
 
   it "symbol header" do
-    df = EasySheetIo.read("../Test.xlsx", format: :daru, header: :symbol)
+    df = EasySheetIo.read("../Test.xlsx", format: :daru, header: nil, symbol_header: true)
+    p df.map { _1.name }
     expect(df[1].name).to eq :column1
+  end
+
+  it "header check" do
+    df = EasySheetIo.read("../curious_header.csv", format: :daru, symbol_header: true)
+    p df
+    p df.map { _1.name }
   end
 end

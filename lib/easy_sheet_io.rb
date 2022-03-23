@@ -31,6 +31,7 @@ module EasySheetIo
 		
 		return csv if format.nil?
 
+		# Convert Hash or DataFrame
 		ans = to_hash(csv, **opt)
 		return format==:hash || format=="hash" ? ans : to_df(ans, format: format)
 	end
@@ -48,7 +49,7 @@ module EasySheetIo
 	# Convert 2d Array to Hash
 	# ##header: nil -> Default Headers(:column1, column2,...) are generated.
 	# line_until=nil means the data are picked up until the end line.
-	def to_hash(array2d, line_from: 1, line_until: nil, header: 0)
+	def to_hash(array2d, line_from: 1, line_until: nil, header: 0, symbol_header: false)
 		
 		# Define Read Range------------		
 		lfrom, luntil = line_from, line_until
@@ -67,13 +68,8 @@ module EasySheetIo
 		# -----------------------------
 
 		# Define Header----------------
-		if header.nil? || header=="string" || header==:string
-			hd = [*0...(output.longest_line)].map{"column#{_1}"}
-		elsif header=="symbol" || header==:symbol
-			hd = [*0...(output.longest_line)].map{"column#{_1}".intern}
-		else
-			hd = array2d[header]
-		end
+		hd = header.nil? ? [*0...(output.longest_line)].map{"column#{_1}"} : check_header(array2d[header])
+		hd = hd.map { _1.intern } if symbol_header
 		# -----------------------------
 
 		# Make Hash(Header => Data Array)  
@@ -89,7 +85,7 @@ module EasySheetIo
 		end
 	end
 	
-	# ##Genarate Hash from excel file
+	# ##Genarate Array from excel file
 	def open_excel(path, sheet_i, encoding: "utf-8")
 		if /xlsx$/ === path
 			puts "Sorry, encoding option is not supported yet for xlsx file." if encoding != "utf-8"
@@ -120,6 +116,28 @@ module EasySheetIo
 
 			return a2d
 		end
-
 	end
+
+	# Fix blank or duplicated header
+	def check_header(header_array)
+		ans = header_array.map.with_index do |item, i|
+			if item.nil?
+				"column#{i}"
+			elsif item.kind_of?(String)
+				/^\s*$/ === item ? "column#{i}" : item.gsub(/\s+/, "")
+			else
+				item
+			end
+		end 
+
+		dup_check = (0...(header_array.length)).group_by {|i| ans[i]}
+		dup_check.each do |item, i_s|
+			if i_s.length > 1
+				i_s.each_with_index {|i, index_in_i_s| ans[i] = "#{ans[i]}_#{index_in_i_s}"}
+			end
+		end
+
+		return ans
+	end
+
 end
