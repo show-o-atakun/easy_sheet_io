@@ -50,13 +50,16 @@ df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10, l
 ```
 
 Note that line_until option means the designated line is **not** included in output data. That is, line_until: -1 means the last line is not included.
+
 If you want to include the end of line obviously, write line_until: nil. (Of course, it is the default setting of read method.)
 
 When you set header: nil, then default header ("column1", "column2", ...) is set. header: :string is the same meaning.
+
 If you want symbol headers (:column1, :column2, ...), then set header: :symbol.
 
 ## Other Options
 Option encoding: is available for reading csv, xls only (not supported for xlsx) at present.
+
 You can designate csv separator with col_sep: option.
 
 ## TODO
