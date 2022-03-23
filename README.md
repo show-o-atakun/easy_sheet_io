@@ -33,14 +33,13 @@ df_r = EasySheetIo.read("sample.xls", format: "rover")  ## Rover::DataFrame
 ```
 
 ## Header, Ignored Lines
-You can designate header row number with header: option.
+You can designate header row number with *header:* option.
 
-If you want to ignore some beggining lines, you use line_from: option.
+If you want to ignore some beggining lines, you use *line_from:* option.
 
-Similarly, option line_until: is for the last lines.
+Similarly, option *line_until:* is for the last lines. (These options are for Hash, Dataframe only.)
 
-You can designate regular expressions as these options.
-(These options are for Hash, Dataframe only.)
+You can designate regular expressions as line_from, line_until options.
 
 ```ruby
 require 'easy_sheet_io'
@@ -49,13 +48,18 @@ df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10, l
 df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10, line_until: /END OF MAIN DATA/)
 ```
 
-Note that line_until option means the designated line is **not** included in output data. That is, line_until: -1 means the last line is not included.
+Note that line_until option means the designated line is **not** included in output data. That is, *line_until: -1* means the last line is not included.
 
-If you want to include the end of line obviously, write line_until: nil. (Of course, it is the default setting of read method.)
+If you want to include the end of line obviously, write *line_until: nil*. (Of course, it is the default setting of read method.)
 
-When you set header: nil, then default header ("column1", "column2", ...) is set. header: :string is the same meaning.
+### Additional features about header
+When you set *header: nil*, then default headers ("column0", "column1", ...) are set.
 
-If you want symbol headers (:column1, :column2, ...), then set header: :symbol.
+If you want symbol headers instead of string, then set *symbol_header: true*. (Notations header: :string, header: :symbol are duplicated.)
+
+If duplicated data were found in header line, then surfix numbers are added to them (e.g. "x_0", "x_1", ...)
+
+Moreover, if blank data were found in header line, then default headers (e.g. "column3", "column10", ...) are set. These numbers mean the position of the columns.
 
 ## Other Options
 Option encoding: is available for reading csv, xls only (not supported for xlsx) at present.
@@ -64,7 +68,7 @@ You can designate csv separator with col_sep: option.
 
 ## TODO
 
-Regular expression support for header option, ignore_lines option, Treatment for illegal (e.g. blank, duplicated) cells in header line, Numo::NArray support, method to write .xls and .xlsx
+Regular expression support for header option, ignore_lines option, Numo::NArray support, method to write .xls and .xlsx
 
 ## Development
 
