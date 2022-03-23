@@ -59,7 +59,7 @@ If you want symbol headers instead of string, then set *symbol_header: true*. (N
 
 If duplicated data were found in header line, then surfix numbers are added to them (e.g. "x_0", "x_1", ...)
 
-Moreover, if blank data were found in header line, then default headers (e.g. "column3", "column10", ...) are set. These numbers mean the position of the columns.
+Moreover, if blank data were found in header line, then default headers (e.g. "column3", "column10", ...) are set. These numbers mean the positions of the columns.
 
 ## Other Options
 Option *encoding:* is available for reading csv, xls only (not supported for xlsx) at present.
