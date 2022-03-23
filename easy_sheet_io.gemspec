@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["shun_yamaguchi_tc@live.jp"]
 
   spec.summary       = "A simple way to Open .csv, .xls, .xlsx files."
-  spec.description   = "A simple way to Open .csv, .xls, .xlsx files. You can convert it to 2D Array, Hash, Dataframe."
+  spec.description   = "A simple way to Open .csv, .xls, .xlsx files. You can convert it to 2D array, hash, data frame."
   spec.homepage      = "https://github.com/show-o-atakun/easy_sheet_io"
   spec.license       = "MIT"
   spec.required_ruby_version = Gem::Requirement.new(">= 2.3.0")
