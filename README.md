@@ -50,7 +50,7 @@ df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10, l
 
 Note that line_until option means the designated line is **not** included in output data. That is, *line_until: -1* means the last line is not included.
 
-If you want to include the end of line obviously, write *line_until: nil*. (Of course, it is the default setting of read method.)
+If you want to include the end of lines obviously, write *line_until: nil*. (Of course, it is the default setting of read method.)
 
 ### Additional features about header
 When you set *header: nil*, then default headers ("column0", "column1", ...) are set.
