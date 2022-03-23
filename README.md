@@ -32,24 +32,33 @@ df_d = EasySheetIo.read("sample.xls", format: "daru")   ## Daru::DataFrame
 df_r = EasySheetIo.read("sample.xls", format: "rover")  ## Rover::DataFrame
 ```
 
+## Header, Ignored Lines
 You can designate header row number with header: option.
 If you want to ignore some beggining lines, you use line_from: option.
-Option line_until: is for the last lines.
-(These options are for Hash, Dataframe.)
+Similarly, option line_until: is for the last lines.
+You can designate regular expressions as these options.
+(These options are for Hash, Dataframe only.)
 
 ```ruby
 require 'easy_sheet_io'
 
 df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10, line_until: 200)
+df = EasySheetIo.read("sample.xls", format: "rover", header: 7, line_from: 10, line_until: /END OF MAIN DATA/)
 ```
 
-When you set header: nil, then default header ("column1", "column2", ...) is set.
+Note that line_until option means the designated line is **not** included in output data. That is, line_until: -1 means the last line is not included.
+If you want to include the end of line obviously, write line_until: nil. (Of course, it is the default setting of read method.)
 
-Option encoding: is available for CSV reading only at present.
+When you set header: nil, then default header ("column1", "column2", ...) is set. header: :string is the same meaning.
+If you want symbol headers (:column1, :column2, ...), then set header: :symbol.
+
+## Other Options
+Option encoding: is available for reading csv, xls only (not supported for xlsx) at present.
+You can designate csv separator with col_sep: option.
 
 ## TODO
 
-line_until option, regular expression support for options, Numo::NArray support, method to write .xls and .xlsx
+Regular expression support for header option, ignore_lines option, Numo::NArray support, method to write .xls and .xlsx
 
 ## Development
 
