@@ -64,7 +64,7 @@ You can designate csv separator with col_sep: option.
 
 ## TODO
 
-Regular expression support for header option, ignore_lines option, Treatment for illegal (e.g. blank) cells in header line, Numo::NArray support, method to write .xls and .xlsx
+Regular expression support for header option, ignore_lines option, Treatment for illegal (e.g. blank, duplicated) cells in header line, Numo::NArray support, method to write .xls and .xlsx
 
 ## Development
 
