@@ -34,8 +34,11 @@ df_r = EasySheetIo.read("sample.xls", format: "rover")  ## Rover::DataFrame
 
 ## Header, Ignored Lines
 You can designate header row number with header: option.
+
 If you want to ignore some beggining lines, you use line_from: option.
+
 Similarly, option line_until: is for the last lines.
+
 You can designate regular expressions as these options.
 (These options are for Hash, Dataframe only.)
 
