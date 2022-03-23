@@ -17,22 +17,28 @@ module EasySheetIo
 		return /csv$/ === path ? read_csv(path, **opt) : read_excel(path, **opt)
 	end
 	
-	# ##Generate DF from CSV File
+	# ##Generate Array from CSV File, and convert it to Hash or DataFrame.
 	# **opt candidate= line_from: 1, header: 0
-	def read_csv(path, format: nil, encoding: "utf-8", **opt)
-		csv = CSV.parse(File.open path, encoding: encoding, &:read) # Get 2D Array
+	def read_csv(path, format: nil, encoding: "utf-8", col_sep: ",", **opt)
+		# Get 2D Array
+		begin
+			csv = CSV.parse(File.open(path, encoding: encoding, &:read), col_sep: col_sep)
+		rescue Encoding::InvalidByteSequenceError
+			# Try Another Encoding
+			puts "Fail Encoding #{encoding}. Trying cp932..."
+			csv = CSV.parse(File.open(path, encoding: "cp932", &:read), col_sep: col_sep)
+		end
+		
 		return csv if format.nil?
 
 		ans = to_hash(csv, **opt)
 		return format==:hash || format=="hash" ? ans : to_df(ans, format: format)
 	end
 
-	# ##Generate DF from Excel File
+	# ##Generate Array from EXCEL File, and convert it to Hash or DataFrame.
 	# **opt candidate= line_from: 1, header: 0)
-	# !encoding parameter is not allowed yet
-	# !(Finally, I want to make it automatically recognize encoding of file).
-	def read_excel(path, sheet_i: 0, format: nil, **opt)
-		a2d = open_excel(path, sheet_i) # Get 2D Array
+	def read_excel(path, sheet_i: 0, format: nil, encoding: "utf-8", **opt)
+		a2d = open_excel(path, sheet_i, encoding: encoding) # Get 2D Array
 		return a2d if format.nil?
 		
 		ans = to_hash(a2d, **opt)
@@ -41,11 +47,36 @@ module EasySheetIo
 	
 	# Convert 2d Array to Hash
 	# ##header: nil -> Default Headers(:column1, column2,...) are generated.
-	def to_hash(array2d, line_from: 1, line_until: -1, header: 0)
-		output = array2d[line_from..line_until]
-		hd = header.nil? ? [*0...(output.longest_line)].map{"column#{_1}"} : array2d[header]
-		output_transpose = output[0].zip(*output[1..])
+	# line_until=nil means the data are picked up until the end line.
+	def to_hash(array2d, line_from: 1, line_until: nil, header: 0)
 		
+		# Define Read Range------------		
+		lfrom, luntil = line_from, line_until
+		lf_reg, lu_reg = line_from.kind_of?(Regexp), line_until.kind_of?(Regexp)
+		
+		if lf_reg || lu_reg
+			lines_ary = array2d.map{ _1.join "," }
+			lfrom = lines_ary.find_index{ line_from === _1 } if lf_reg
+			luntil = (lines_ary.length-1) - lines_ary.reverse.find_index{ line_until === _1 } if lu_reg
+		end
+		# -----------------------------
+			
+		# Define Data Array------------
+		output = array2d[lfrom...luntil]
+		output_transpose = output[0].zip(*output[1..])
+		# -----------------------------
+
+		# Define Header----------------
+		if header.nil? || header=="string" || header==:string
+			hd = [*0...(output.longest_line)].map{"column#{_1}"}
+		elsif header=="symbol" || header==:symbol
+			hd = [*0...(output.longest_line)].map{"column#{_1}".intern}
+		else
+			hd = array2d[header]
+		end
+		# -----------------------------
+
+		# Make Hash(Header => Data Array)  
 		return hd.each_with_object({}).with_index {|(hdr, hash), i| hash[hdr]=output_transpose[i]}
 	end
 	
@@ -59,18 +90,26 @@ module EasySheetIo
 	end
 	
 	# ##Genarate Hash from excel file
-	def open_excel(path, sheet_i)
-		begin
-			book = /xlsx$/ === path ? Roo::Excelx.new(path) : Roo::Excel.new(path)
+	def open_excel(path, sheet_i, encoding: "utf-8")
+		if /xlsx$/ === path
+			puts "Sorry, encoding option is not supported yet for xlsx file." if encoding != "utf-8"
+
+			book = Roo::Excelx.new(path)
 			s = book.sheet(sheet_i)
 			
-			## bottole neck===
+			## bottole neck
 			return s.to_a
-			
-		rescue Encoding::InvalidByteSequenceError
-		
-			Spreadsheet.client_encoding="Windows-31J"
-			ss = Spreadsheet.open(path)
+
+		# xls
+		else
+			begin
+				Spreadsheet.client_encoding = encoding
+				ss = Spreadsheet.open(path)
+			rescue Encoding::InvalidByteSequenceError
+				puts "Fail Encoding #{encoding}. Trying Windows-31J..."
+				Spreadsheet.client_encoding = "Windows-31J"
+				ss = Spreadsheet.open(path)
+			end
 
 			a2d = []
 			ss.worksheets[sheet_i].rows.each do |row|
