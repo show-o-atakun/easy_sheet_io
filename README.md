@@ -62,9 +62,9 @@ If duplicated data were found in header line, then surfix numbers are added to t
 Moreover, if blank data were found in header line, then default headers (e.g. "column3", "column10", ...) are set. These numbers mean the position of the columns.
 
 ## Other Options
-Option encoding: is available for reading csv, xls only (not supported for xlsx) at present.
+Option *encoding:* is available for reading csv, xls only (not supported for xlsx) at present.
 
-You can designate csv separator with col_sep: option.
+You can designate csv separator with *col_sep:* option.
 
 ## TODO
 
