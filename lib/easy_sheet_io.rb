@@ -129,15 +129,17 @@ module EasySheetIo
 	def fix_array(array2d, replace_to_nil, analyze_type)
 		ans = array2d
 		
-		if replace_nil.length > 0
-			ans = ans.map { _1.map {|cell| replace_nil.include?(cell) ? nil : cell } }
+		if replace_to_nil.length > 0
+			ans = ans.map { _1.map {|cell| replace_to_nil.include?(cell) ? nil : cell } }
 		end
 
-		if analyze_type
-			ans = ans.map do |column|
+		# if analyze_type
+		# 	ans = ans.map do |column|
 				
-			end
-		end
+		# 	end
+		# end
+
+		return ans
 	end
 
 	# Fix blank or duplicated header
