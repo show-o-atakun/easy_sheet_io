@@ -51,7 +51,7 @@ module EasySheetIo
 	## Option line_ignored is not implemented yet.
 	def to_hash(array2d, line_from: 1, line_until: nil, line_ignored: nil,
 		                 header: 0, symbol_header: false,
-						 replace_to_nil: [], analyze_type: false)
+						 replaced_by_nil: [], analyze_type: false)
 		
 		# Define Read Range------------		
 		lfrom, luntil = line_from, line_until
@@ -67,7 +67,7 @@ module EasySheetIo
 		# Define Data Array------------
 		output = array2d[lfrom...luntil]
 		output_transpose = output[0].zip(*output[1..])
-		output_transpose = fix_array(output_transpose, replace_to_nil, analyze_type)
+		output_transpose = fix_array(output_transpose, replaced_by_nil, analyze_type)
 		# -----------------------------
 
 		# Define Header----------------
@@ -126,12 +126,12 @@ module EasySheetIo
 	end
 
 	# Fix Array (Replace specific values to nil, recognize value type and cast values to the type.)
-	def fix_array(array2d, replace_to_nil, analyze_type)
+	def fix_array(array2d, replaced_by_nil, analyze_type)
 		ans = array2d
 		
 		## Replace Blank or User-Selected Value
 		ans = ans.map do |column| 
-			column.map { |cell| replace_to_nil.include?(cell) || /^\s*$/ === cell ? nil : cell }
+			column.map { |cell| replaced_by_nil.include?(cell) || /^\s*$/ === cell ? nil : cell }
 		end
 		
 		## Replace Number Values to Integer or Float

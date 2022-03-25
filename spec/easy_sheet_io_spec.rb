@@ -48,7 +48,7 @@ RSpec.describe EasySheetIo do
 
   it "long csv" do
     df = EasySheetIo.read("../long_csv.csv", format: :daru,
-     symbol_header: true, replace_to_nil: [" No Data", " Untest", "NaN"], analyze_type: true)
+     symbol_header: true, replaced_by_nil: [" No Data", " Untest", "NaN"], analyze_type: true)
     p df.mean
   end
 end
