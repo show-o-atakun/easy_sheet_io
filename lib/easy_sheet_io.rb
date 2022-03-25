@@ -12,7 +12,7 @@ module EasySheetIo
 	class Error < StandardError; end
 	
 	module_function
-	
+
 	def read(path, **opt)
 		return /csv$/ === path ? read_csv(path, **opt) : read_excel(path, **opt)
 	end
@@ -47,9 +47,11 @@ module EasySheetIo
 	end
 	
 	# Convert 2d Array to Hash
-	# ##header: nil -> Default Headers(:column1, column2,...) are generated.
-	# line_until=nil means the data are picked up until the end line.
-	def to_hash(array2d, line_from: 1, line_until: nil, header: 0, symbol_header: false)
+	## header: nil -> Default Headers(:column1, column2,...) are generated.
+	## Option line_ignored is not implemented yet.
+	def to_hash(array2d, line_from: 1, line_until: nil, line_ignored: nil,
+		                 header: 0, symbol_header: false,
+						 replace_to_nil: [], analyze_type: false)
 		
 		# Define Read Range------------		
 		lfrom, luntil = line_from, line_until
@@ -64,6 +66,7 @@ module EasySheetIo
 			
 		# Define Data Array------------
 		output = array2d[lfrom...luntil]
+		output = fix_array(output, replace_to_nil, analyze_type)
 		output_transpose = output[0].zip(*output[1..])
 		# -----------------------------
 
@@ -84,8 +87,12 @@ module EasySheetIo
 			return Rover::DataFrame.new(data)
 		end
 	end
-	
-	# ##Genarate Array from excel file
+
+	#----------------------------
+	# Private metods from here
+	#----------------------------
+
+	# Genarate Array from excel file
 	def open_excel(path, sheet_i, encoding: "utf-8")
 		if /xlsx$/ === path
 			puts "Sorry, encoding option is not supported yet for xlsx file." if encoding != "utf-8"
@@ -118,8 +125,24 @@ module EasySheetIo
 		end
 	end
 
+	# Fix Array (Replace specific values to nil, recognize value type and cast values to the type.)
+	def fix_array(array2d, replace_to_nil, analyze_type)
+		ans = array2d
+		
+		if replace_nil.length > 0
+			ans = ans.map { _1.map {|cell| replace_nil.include?(cell) ? nil : cell } }
+		end
+
+		if analyze_type
+			ans = ans.map do |column|
+				
+			end
+		end
+	end
+
 	# Fix blank or duplicated header
 	def check_header(header_array)
+		# Check Blank
 		ans = header_array.map.with_index do |item, i|
 			if item.nil?
 				"column#{i}"
@@ -130,6 +153,7 @@ module EasySheetIo
 			end
 		end 
 
+		# Check Duplicated Value
 		dup_check = (0...(header_array.length)).group_by {|i| ans[i]}
 		dup_check.each do |item, i_s|
 			if i_s.length > 1
@@ -139,5 +163,7 @@ module EasySheetIo
 
 		return ans
 	end
+
+	private_class_method :open_excel, :fix_array, :check_header
 
 end

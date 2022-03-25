@@ -31,7 +31,15 @@ Gem::Specification.new do |spec|
 
   # Uncomment to register a new dependency of your gem
   # spec.add_dependency "example-gem", "~> 1.0"
-
+  spec.add_dependency "rake", "~> 13.0"
+  spec.add_dependency "rspec", "~> 3.0"
+  spec.add_dependency "rubocop", "~> 0.80"
+  
+  spec.add_dependency "daru", ">= 0.3"
+  spec.add_dependency "rover-df", ">= 0.2.7"
+  spec.add_dependency "smarter_csv", ">= 1.4.2"
+  spec.add_dependency "roo-xls", ">= 1.2.0"
+  spec.add_dependency "spreadsheet", ">= 1.3.0"
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html
 end
