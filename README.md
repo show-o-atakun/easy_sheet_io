@@ -55,7 +55,7 @@ If you want to include the end of lines clearly, write *line_until: nil*. (Of co
 ### Additional features about header
 When you set *header: nil*, then default headers ("column0", "column1", ...) are set.
 
-If you want symbol headers instead of string, then set *symbol_header: true*. (Notations header: :string, header: :symbol are abolished.)
+If you want symbol headers instead of string, then set *symbol_header: true*. 
 
 If duplicated data were found in header line, then surfix numbers are added to them (e.g. "x_0", "x_1", ...)
 
