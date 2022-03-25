@@ -51,7 +51,7 @@ module EasySheetIo
 	## Option line_ignored is not implemented yet.
 	def to_hash(array2d, line_from: 1, line_until: nil, line_ignored: nil,
 		                 header: 0, symbol_header: false,
-						 replace_to_nil: [], analyze_type: true)
+						 replace_to_nil: [], analyze_type: false)
 		
 		# Define Read Range------------		
 		lfrom, luntil = line_from, line_until
@@ -179,7 +179,8 @@ module EasySheetIo
 			if item.nil?
 				"column#{i}"
 			elsif item.kind_of?(String)
-				/^\s*$/ === item ? "column#{i}" : item.gsub(/\s+/, "")
+				temp = /^\s*$/ === item ? "column#{i}" : item.gsub(/\s+/, "")
+				/^\d+$/ === temp ? "column#{i}" : temp
 			else
 				item
 			end
