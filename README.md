@@ -62,9 +62,15 @@ If duplicated data were found in header line, then surfix numbers are added to t
 Moreover, if blank data were found in header line, then default headers (e.g. "column3", "column10", ...) are set. These numbers mean the positions of the columns.
 
 ## Other Options
-Option *encoding:* is available for reading csv, xls only (not supported for xlsx) at present.
+*encoding:* option is available for reading csv, xls only (not supported for xlsx) at present.
 
-You can designate csv separator with *col_sep:* option.
+*col_sep:* option: You can designate csv separator with it.
+
+*sheet_i:* means excel sheet to read.
+
+*replace_by_nil:* option: You set an array containing string as this argument. The values in data file matching with items in this array are replaced by nil. (When format is "rover", it means the values are replaced with NaN.) This option is useful to treat missing values.
+
+*analyze_type:* option: When it is true, numerical columns are automatically converted to Integer or Float. This is experimental option (because it might be inefficient to apply to huge file). So default is false.  
 
 ## TODO
 
