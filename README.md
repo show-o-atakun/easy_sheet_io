@@ -59,18 +59,18 @@ If you want symbol headers instead of string, then set *symbol_header: true*. (N
 
 If duplicated data were found in header line, then surfix numbers are added to them (e.g. "x_0", "x_1", ...)
 
-Moreover, if blank data were found in header line, then default headers (e.g. "column3", "column10", ...) are set. These numbers mean the positions of the columns.
+Moreover, if blank data or integer data were found in header line, then default headers (e.g. "column3", "column10", ...) are set so as to avoid error about daru and rover. These numbers (column-x) mean the positions of the columns.
 
 ## Other Options
-*encoding:* option is available for reading csv, xls only (not supported for xlsx) at present.
+*encoding:* option is available for reading .csv, .xls only (not supported for .xlsx) at present.
 
 *col_sep:* option: You can designate csv separator with it.
 
 *sheet_i:* means excel sheet to read.
 
-*replaced_by_nil:* option: You set an array containing string as this argument. The values in data file matching with items in this array are replaced by nil. (When format is "rover", it means the values are replaced by NaN.) This option is useful to treat missing values.
+*replaced_by_nil:* option: You set an array containing string values as this argument. The values in data file matching with items in this array are replaced by nil. (When format is "rover", it means the values are replaced by NaN.) This option is useful to treat missing values.
 
-*analyze_type:* option: When it is true, numerical columns are automatically converted to Integer or Float. This is experimental option (because it might be inefficient to apply to huge file). So default is false.  
+*analyze_type:* option: When it is true, numerical columns are automatically converted to Integer or Float. This is experimental option (because it might be inefficient to apply to huge file) and default is false.  
 
 ## TODO
 
