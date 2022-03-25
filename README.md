@@ -70,7 +70,7 @@ Moreover, if blank data or integer data were found in header line, then default 
 
 *replaced_by_nil:* option: You set an array containing string values as this argument. The values in data file matching with items in this array are replaced by nil. (When format is "rover", it means the values are replaced by NaN.) This option is useful to treat missing values.
 
-*analyze_type:* option: When it is true, numerical columns are automatically converted to Integer or Float. This is experimental option (because it might be inefficient to apply to huge file) and default is false.  
+*analyze_type:* option: When it is true, numerical columns are automatically converted to columns containing Integer or Float. This is experimental option (because it might be inefficient to apply to huge file) and default is false.  
 
 ## TODO
 
