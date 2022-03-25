@@ -182,7 +182,7 @@ module EasySheetIo
 				temp = /^\s*$/ === item ? "column#{i}" : item.gsub(/\s+/, "")
 				/^\d+$/ === temp ? "column#{i}" : temp
 			else
-				item
+				item.to_s
 			end
 		end 
 
