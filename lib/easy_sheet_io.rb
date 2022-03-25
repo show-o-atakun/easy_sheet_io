@@ -51,7 +51,7 @@ module EasySheetIo
 	## Option line_ignored is not implemented yet.
 	def to_hash(array2d, line_from: 1, line_until: nil, line_ignored: nil,
 		                 header: 0, symbol_header: false,
-						 replace_to_nil: [], analyze_type: false)
+						 replace_to_nil: [], analyze_type: true)
 		
 		# Define Read Range------------		
 		lfrom, luntil = line_from, line_until
@@ -66,8 +66,8 @@ module EasySheetIo
 			
 		# Define Data Array------------
 		output = array2d[lfrom...luntil]
-		output = fix_array(output, replace_to_nil, analyze_type)
 		output_transpose = output[0].zip(*output[1..])
+		output_transpose = fix_array(output_transpose, replace_to_nil, analyze_type)
 		# -----------------------------
 
 		# Define Header----------------
@@ -129,17 +129,47 @@ module EasySheetIo
 	def fix_array(array2d, replace_to_nil, analyze_type)
 		ans = array2d
 		
-		if replace_to_nil.length > 0
-			ans = ans.map { _1.map {|cell| replace_to_nil.include?(cell) ? nil : cell } }
+		## Replace Blank or User-Selected Value
+		ans = ans.map do |column| 
+			column.map { |cell| replace_to_nil.include?(cell) || /^\s*$/ === cell ? nil : cell }
+		end
+		
+		## Replace Number Values to Integer or Float
+		if analyze_type
+			ans = ans.map.with_index do |column, i|
+				type_of_column = :any
+				column.each { |cell| type_of_column = recognize_type(cell, type_of_column) }
+				
+				# p type_of_column
+				case type_of_column
+				when :int
+					column.map { _1.nil? ? nil : _1.to_i }
+				when :float
+					column.map { _1.nil? ? nil : _1.to_f }
+				else
+					column
+				end
+			end
 		end
 
-		# if analyze_type
-		# 	ans = ans.map do |column|
-				
-		# 	end
-		# end
-
 		return ans
+	end
+
+	def recognize_type(str, expected)
+		return expected if str.nil?
+
+		order = {:any => 0, :int => 1, :float => 2, :string => 3}
+		if /^\s*(-|\+)?\d+\s*$/ === str
+			type_of_str = :int
+		elsif /^\s*(-|\+)?\d*\.\d*\s*$/ === str || /^\s*(-|\+)?(\d*\.\d+|\d+)(e|E)(-|\+)?\d+\s*$/ === str
+			type_of_str = :float
+		else
+			type_of_str = :string
+		end
+				
+		# p "#{type_of_str}, #{str}" if order[type_of_str] > order[expected]
+
+		return order[type_of_str] > order[expected] ? type_of_str : expected
 	end
 
 	# Fix blank or duplicated header
