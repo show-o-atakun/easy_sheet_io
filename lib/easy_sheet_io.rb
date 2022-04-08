@@ -23,7 +23,7 @@ module EasySheetIo
 		# Get 2D Array
 		begin
 			csv = CSV.parse(File.open(path, encoding: encoding, &:read), col_sep: col_sep)
-		rescue Encoding::InvalidByteSequenceError
+		rescue
 			# Try Another Encoding
 			puts "Fail Encoding #{encoding}. Trying cp932..."
 			csv = CSV.parse(File.open(path, encoding: "cp932", &:read), col_sep: col_sep)
