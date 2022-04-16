@@ -51,7 +51,7 @@ module EasySheetIo
 	## Option line_ignored is not implemented yet.
 	def to_hash(array2d, line_from: 1, line_until: nil, line_ignored: nil,
 		                 header: 0, symbol_header: false,
-						 replaced_by_nil: [], analyze_type: false)
+						 replaced_by_nil: [], analyze_type: true)
 		
 		# Define Read Range------------		
 		lfrom, luntil = line_from, line_until
