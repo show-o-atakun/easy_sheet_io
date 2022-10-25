@@ -73,7 +73,7 @@ Moreover, if blank data or integer data were found in header line, then default 
 *analyze_type:* option: When it is true, numerical columns are automatically converted to columns containing Integer or Float. The default value is true.
 
 ## Output
-You can write .csv file from dataframe easily. (for both Daru and Rover)
+You can convert dataframe to CSV file easily. (for both Daru and Rover)
 
 ```ruby
 df.write_csv("output.csv")
