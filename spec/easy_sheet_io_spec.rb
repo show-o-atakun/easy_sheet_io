@@ -1,9 +1,16 @@
 # frozen_string_literal: true
 
 RSpec.describe EasySheetIo do
-  # it "has a version number" do
-  #   expect(EasySheetIo::VERSION).not_to be nil
-  # end
+  it "check add vector (Daru)" do
+    df = EasySheetIo.read("Test.csv", format: :daru)
+    df.addvec("NewVec", df["X"]+df["Y"])
+    p df["NewVec"]
+    expect(df.map(&:name)[-1]=="NewVec")
+  end
+
+# it "has a version number" do
+#   expect(EasySheetIo::VERSION).not_to be nil
+# end
 
 #  it "csv test" do
 #    df = EasySheetIo.read("../Test.csv", format: :daru)

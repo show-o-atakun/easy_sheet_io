@@ -17,6 +17,14 @@ class Daru::DataFrame
 	def write_csv(path)
 		open(path, "w") { _1.write to_csv }
 	end
+
+	# To avoid bug about adding column to Daru::DataFrame
+	def add_vector(vecname, vec)
+		self[vecname] = vec
+		self.rename_vectors({vecname => vecname})
+	end
+
+	alias_method :addvec, :add_vector
 end
 
 class Rover::DataFrame
