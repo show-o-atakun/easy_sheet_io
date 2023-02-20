@@ -14,8 +14,9 @@ class Daru::DataFrame
 		return ans
 	end
 	
-	def write_csv(path)
-		open(path, "w") { _1.write to_csv }
+	def write_csv(path, encoding: nil)
+		enc = encoding.nil? ? "" : ":#{encoding}"
+		open(path, "w#{enc}") { _1.write to_csv }
 	end
 
 	# To avoid bug about adding column to Daru::DataFrame
@@ -24,13 +25,21 @@ class Daru::DataFrame
 		self.rename_vectors({vecname => vecname})
 	end
 
+	# ver.0.3.8~ Convert Daru::DF encoding
+	def convert_enc!(from: "cp932", to: "utf-8")
+		self.vectors.each do |col|
+			self[col] = self[col].each {|val| val.encode!(to, from_encoding: from) } if self[col][0].is_a?(String)
+		end
+	end
+
 	alias_method :addvec, :add_vector
 end
 
 class Rover::DataFrame
 	# Rover#to_csv is already exist.
 
-	def write_csv(path)
-		open(path, "w") {|f| f.write self.to_csv}
+	def write_csv(path, encoding: nil)
+		enc = encoding.nil? ? "" : ":#{encoding}"
+		open(path, "w#{enc}") {|f| f.write self.to_csv}
 	end
 end

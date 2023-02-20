@@ -2,7 +2,7 @@
 
 RSpec.describe EasySheetIo do
   it "check add vector (Daru)" do
-    df = EasySheetIo.read("Test.csv", format: :daru)
+    df = EasySheetIo.read("Test.csv")
     df.addvec("NewVec", df["X"]+df["Y"])
     p df["NewVec"]
     expect(df.map(&:name)[-1]=="NewVec")

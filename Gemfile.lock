@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    easy_sheet_io (0.3.7)
+    easy_sheet_io (0.3.8)
       daru (>= 0.3)
       roo-xls (>= 1.2.0)
       rover-df (>= 0.2.7)

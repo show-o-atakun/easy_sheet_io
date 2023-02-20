@@ -19,7 +19,8 @@ module EasySheetIo
 	
 	# ##Generate Array from CSV File, and convert it to Hash or DataFrame.
 	# **opt candidate= line_from: 1, header: 0
-	def read_csv(path, format: nil, encoding: "utf-8", col_sep: ",", **opt)
+	# ver. 0.3.8~ default format=:daru
+	def read_csv(path, format: :daru, encoding: "utf-8", col_sep: ",", **opt)
 		# Get 2D Array
 		begin
 			csv = CSV.parse(File.open(path, encoding: encoding, &:read), col_sep: col_sep)
@@ -29,21 +30,29 @@ module EasySheetIo
 			csv = CSV.parse(File.open(path, encoding: "cp932", &:read), col_sep: col_sep)
 		end
 		
-		return csv if format.nil?
-
-		# Convert Hash or DataFrame
-		ans = to_hash(csv, **opt)
-		return format==:hash || format=="hash" ? ans : to_df(ans, format: format)
+		if format.to_s == "array"
+			return csv
+		elsif format.to_s == "hash"
+			return to_hash(csv, **opt)
+		else # include format.nil?
+			ans = to_df(to_hash(csv, **opt), format: format)
+			ans.convert_enc!(from: encoding, to: "utf-8") if encoding != "utf-8"
+			return ans
+		end
 	end
 
 	# ##Generate Array from EXCEL File, and convert it to Hash or DataFrame.
 	# **opt candidate= line_from: 1, header: 0)
 	def read_excel(path, sheet_i: 0, format: nil, encoding: "utf-8", **opt)
 		a2d = open_excel(path, sheet_i, encoding: encoding) # Get 2D Array
-		return a2d if format.nil?
-		
-		ans = to_hash(a2d, **opt)
-		return format==:hash || format=="hash" ? ans : to_df(ans, format: format)
+
+		if format.to_s == "array"
+			return a2d
+		elsif format.to_s == "hash"
+			return to_hash(a2d, **opt)
+		else # include format.nil?
+			return to_df(to_hash(a2d, **opt), format: format)
+		end
 	end
 	
 	# Convert 2d Array to Hash
