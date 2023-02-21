@@ -43,7 +43,7 @@ module EasySheetIo
 
 	# ##Generate Array from EXCEL File, and convert it to Hash or DataFrame.
 	# **opt candidate= line_from: 1, header: 0)
-	def read_excel(path, sheet_i: 0, format: nil, encoding: "utf-8", **opt)
+	def read_excel(path, sheet_i: 0, format: :daru, encoding: "utf-8", **opt)
 		a2d = open_excel(path, sheet_i, encoding: encoding) # Get 2D Array
 
 		if format.to_s == "array"
@@ -89,14 +89,10 @@ module EasySheetIo
 	end
 	
 	# Convert Hash to DataFrame
-	def to_df(data, format: :daru)
-		if format == :daru || format == "daru"
-			return Daru::DataFrame.new(data)
-		else #Rover
-			return Rover::DataFrame.new(data)
-		end
+	def to_df(d, format: :daru)
+		return format.to_s == "daru" || format.nil? ? Daru::DataFrame.new(d) : Rover::DataFrame.new(d)
 	end
-
+	
 	#----------------------------
 	# Private metods from here
 	#----------------------------
