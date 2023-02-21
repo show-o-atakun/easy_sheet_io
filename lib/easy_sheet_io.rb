@@ -36,7 +36,7 @@ module EasySheetIo
 			return to_hash(csv, **opt)
 		else # include format.nil?
 			ans = to_df(to_hash(csv, **opt), format: format)
-			ans.convert_enc!(from: encoding, to: "utf-8") if encoding != "utf-8"
+			ans.convert_enc!(from: encoding, to: "utf-8") # if encoding != "utf-8"
 			return ans
 		end
 	end
