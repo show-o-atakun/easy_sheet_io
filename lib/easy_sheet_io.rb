@@ -28,6 +28,7 @@ module EasySheetIo
 			# Try Another Encoding
 			puts "Fail Encoding #{encoding}. Trying cp932..."
 			csv = CSV.parse(File.open(path, encoding: "cp932", &:read), col_sep: col_sep)
+			encoding = "cp932"
 		end
 		
 		if format.to_s == "array"
