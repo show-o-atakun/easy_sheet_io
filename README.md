@@ -13,22 +13,23 @@ Then, you can use it like below:
 ```ruby
 require 'easy_sheet_io'
 
-ary = EasySheetIo.read("sample.csv")
+df = EasySheetIo.read("sample.csv")
 
 ## xls, xlsx can be designated at the same way. 
-# ary = EasySheetIo.read("sample.xls")
-# ary = EasySheetIo.read("sample.xlsx")
+# df = EasySheetIo.read("sample.xls")
+# df = EasySheetIo.read("sample.xlsx")
 ```
 
-In this example, variable ary is a 2-dimentional array.
+In this example, variable ary is a Daru::DataFrame.
 
 If you want a hash, or dataframe, format option is helpful.
 
 ```ruby
 require 'easy_sheet_io'
 
+hash = EasySheetIo.read("sample.xlsx", format: "array")  ## 2-dimentional array
 hash = EasySheetIo.read("sample.xlsx", format: "hash")   ## Hash
-df_d = EasySheetIo.read("sample.xlsx", format: "daru")   ## Daru::DataFrame
+df_d = EasySheetIo.read("sample.xlsx", format: "daru")   ## Daru::DataFrame (Default)
 df_r = EasySheetIo.read("sample.xlsx", format: "rover")  ## Rover::DataFrame
 ```
 
