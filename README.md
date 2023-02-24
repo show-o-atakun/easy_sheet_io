@@ -80,6 +80,15 @@ You can convert dataframe to CSV file easily. (for both Daru and Rover)
 df.write_csv("output.csv")
 ```
 
+## Another tips
+Daru is powerful, but it has some bugs. To avoid them, I try deploying some wrappers in it. All you need is to call easy_sheet_io.
+For example, adding new column (vector) with operator []= may cause some unexpected behaviors, so method addvec is helpful instead of it.
+
+```ruby
+# Example of adding new column (vector)
+require "easy_sheet_io"
+df.addvec "new_vector_name", df["x"] + df["y"]
+```
 
 ## TODO
 
