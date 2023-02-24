@@ -27,7 +27,7 @@ If you want a hash, or dataframe, format option is helpful.
 ```ruby
 require 'easy_sheet_io'
 
-ary = EasySheetIo.read("sample.xlsx", format: "array")  ## 2-dimentional array
+ary  = EasySheetIo.read("sample.xlsx", format: "array")  ## 2-dimentional array
 hash = EasySheetIo.read("sample.xlsx", format: "hash")   ## Hash
 df_d = EasySheetIo.read("sample.xlsx", format: "daru")   ## Daru::DataFrame (Default)
 df_r = EasySheetIo.read("sample.xlsx", format: "rover")  ## Rover::DataFrame
