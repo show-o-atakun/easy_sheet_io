@@ -28,9 +28,7 @@ class Daru::DataFrame
 	# ver.0.3.8~ Convert Daru::DF encoding
 	def convert_enc!(from: "cp932", to: "utf-8")
 		self.vectors.each do |col|
-			if self[col][0].is_a?(String)
-				self[col] = self[col].each {|val| val.encode!(to, from_encoding: from) if !val.nil? }
-			end
+			self[col] = self[col].each {|val| val.encode!(to, from_encoding: from) if val.is_a?(String)}
 		end
 	end
 
