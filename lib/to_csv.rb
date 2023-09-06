@@ -32,7 +32,7 @@ class Daru::DataFrame
   
 	# すべての列に対し実施
 	def encode_vectors
-		self.vectors = Daru::Index.new(Range.new(0, self.vectors.size-1).map {|i| encode_vector_name self, i })
+		self.vectors = Daru::Index.new(Range.new(0, self.vectors.size-1).map {|i| encode_vector_name i })
 	end
 
 	# ver.0.3.8~ Convert Daru::DF encoding
