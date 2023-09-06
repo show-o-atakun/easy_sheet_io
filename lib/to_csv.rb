@@ -40,7 +40,6 @@ class Daru::DataFrame
 		self.vectors.each do |col|
 			self[col] = self[col].each {|val| val.encode!(to, from_encoding: from) if val.is_a?(String)}
 		end
-		self.encode_vectors
 	end
 
 
