@@ -26,7 +26,7 @@ module EasySheetIo
 			csv = CSV.parse(File.open(path, encoding: encoding, &:read), col_sep: col_sep)
 		rescue
 			# Try Another Encoding
-			puts "Fail Encoding #{encoding}. Trying cp932..."
+			## puts "Fail Encoding #{encoding}. Trying cp932..."
 			csv = CSV.parse(File.open(path, encoding: "cp932", &:read), col_sep: col_sep)
 			encoding = "cp932"
 		end
@@ -35,7 +35,7 @@ module EasySheetIo
 			return csv
 		elsif format.to_s == "hash"
 			return to_hash(csv, **opt)
-		else # include format.nil?
+		else # include format.nil? ... convert to daru df.
 			ans = to_df(to_hash(csv, **opt), format: format)
 			ans.convert_enc!(from: encoding, to: "utf-8") # if encoding != "utf-8"
 			return ans
