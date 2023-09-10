@@ -21,6 +21,9 @@ module EasySheetIo
 	# **opt candidate= line_from: 1, header: 0
 	# ver. 0.3.8~ default format=:daru
 	def read_csv(path, format: :daru, encoding: "utf-8", col_sep: ",", **opt)
+		## TODO.. index: option that designate column number to generate DF index.
+		## That is, revicing set_index method.
+
 		# Get 2D Array
 		begin
 			csv = CSV.parse(File.open(path, encoding: encoding, &:read), col_sep: col_sep)
@@ -35,9 +38,13 @@ module EasySheetIo
 			return csv
 		elsif format.to_s == "hash"
 			return to_hash(csv, **opt)
-		else # include format.nil? ... convert to daru df.
+		else # include format.nil? (in this case, convert to Daru::DF).
 			ans = to_df(to_hash(csv, **opt), format: format)
-			ans.convert_enc!(from: encoding, to: "utf-8") # if encoding != "utf-8"
+			ans.convert_enc!(from: encoding, to: "utf-8", format: format) # if encoding != "utf-8"
+			
+			# Setting index.. rover not supported yet
+			ans.set_index! if format.to_s == "daru" || format.nil?
+			
 			return ans
 		end
 	end
@@ -62,6 +69,7 @@ module EasySheetIo
 	def to_hash(array2d, line_from: 1, line_until: nil, line_ignored: nil,
 		                 header: 0, symbol_header: false,
 						 replaced_by_nil: [], analyze_type: true)
+				## TODO.. column_from: , column_until:
 		
 		# Define Read Range------------		
 		lfrom, luntil = line_from, line_until
