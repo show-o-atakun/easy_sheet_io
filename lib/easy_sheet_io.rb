@@ -20,7 +20,7 @@ module EasySheetIo
 	# ##Generate Array from CSV File, and convert it to Hash or DataFrame.
 	# **opt candidate= line_from: 1, header: 0
 	# ver. 0.3.8~ default format=:daru
-	def read_csv(path, format: :daru, encoding: "utf-8", col_sep: ",", **opt)
+	def read_csv(path, format: :daru, encoding: "utf-8", col_sep: ",", index: nil, **opt)
 		## TODO.. index: option that designate column number to generate DF index.
 		## That is, revicing set_index method.
 
@@ -40,10 +40,12 @@ module EasySheetIo
 			return to_hash(csv, **opt)
 		else # include format.nil? (in this case, convert to Daru::DF).
 			ans = to_df(to_hash(csv, **opt), format: format)
-			ans.convert_enc!(from: encoding, to: "utf-8", format: format) # if encoding != "utf-8"
 			
-			# Setting index.. rover not supported yet
-			ans.set_index! if format.to_s == "daru" || format.nil?
+			# Converting Encode and Setting index.. rover not supported yet
+			if format.to_s == "daru" || format.nil?
+				ans.convert_enc!(from: encoding, to: "utf-8")
+				ans.set_index! if index
+			end
 			
 			return ans
 		end

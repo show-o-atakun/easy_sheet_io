@@ -25,6 +25,7 @@ class Daru::DataFrame
 		self.rename_vectors({vecname => vecname})
 	end
 
+	### エンコード関連 ###
 	# vector_i番目のヘッダー名を読めるようにエンコード
 	def encode_vector_name(vector_i)
 		if self.vectors.to_a[vector_i].is_a?(String)
@@ -38,15 +39,16 @@ class Daru::DataFrame
 	end
 
 	# ver.0.3.8~ Convert Daru::DF encoding
-	def convert_enc!(from: "cp932", to: "utf-8", format: nil)
+	def convert_enc!(from: "cp932", to: "utf-8")
 		self.vectors.each do |col|
 			self[col] = self[col].each {|val| val.encode!(to, from_encoding: from) if val.is_a?(String)}
 		end
 		
-		self.encode_vectors! if format.to_s == "daru" || format.nil?
+		self.encode_vectors!
 	end
+	#####################
 
-	# rover not suppoted yet
+	# rover not suppoted yet about indexing
 	def set_index!
 		self.index = self[0]
 	end 
