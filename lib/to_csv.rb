@@ -49,8 +49,8 @@ class Daru::DataFrame
 	#####################
 
 	# rover not suppoted yet about indexing
-	def set_index!
-		self.index = self[0]
+	def set_index!(indexcolumn)
+		self.index = self[indexcolumn]
 	end 
 
 	alias_method :addvec, :add_vector

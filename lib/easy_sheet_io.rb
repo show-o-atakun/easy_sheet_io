@@ -44,7 +44,7 @@ module EasySheetIo
 			# Converting Encode and Setting index.. rover not supported yet
 			if format.to_s == "daru" || format.nil?
 				ans.convert_enc!(from: encoding, to: "utf-8")
-				ans.set_index! if index
+				ans.set_index!(index) if index
 			end
 			
 			return ans
@@ -61,7 +61,11 @@ module EasySheetIo
 		elsif format.to_s == "hash"
 			return to_hash(a2d, **opt)
 		else # include format.nil?
-			return to_df(to_hash(a2d, **opt), format: format)
+			ans = to_df(to_hash(a2d, **opt), format: format)
+			if format.to_s == "daru" || format.nil?
+				ans.set_index!(index) if index
+			end
+			return ans
 		end
 	end
 	
