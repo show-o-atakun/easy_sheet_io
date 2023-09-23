@@ -83,7 +83,7 @@ df.write_csv("output.csv")
 ```
 
 ## Another tips
-Daru is powerful, but it has some bugs. To avoid them, I try deploying some wrappers in it. All you need is to call easy_sheet_io.
+Daru is powerful, but it has not been maintained for a long time, and has some bugs. To avoid them, I try deploying some wrappers in it. All you need is to call easy_sheet_io.
 For example, adding new column (vector) with operator []= may cause some unexpected behaviors, so method addvec is helpful instead of it.
 
 ```ruby
