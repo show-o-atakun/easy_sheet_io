@@ -36,6 +36,8 @@ df_r = EasySheetIo.read("sample.xlsx", format: "rover")  ## Rover::DataFrame
 ## Header, Index, Ignored Lines
 You can designate header row number with *header:* option.
 
+(Daru::DataFrame only) you also can designate column number used to index, with  *index:* option. The default is nil, that is, default(order) index are set.
+
 If you want to ignore some beggining lines, you use *line_from:* option.
 
 Similarly, option *line_until:* is for the last lines. (These options are for Hash, Dataframe only.)
