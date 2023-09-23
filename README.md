@@ -94,7 +94,7 @@ df.addvec "new_vector_name", df["x"] + df["y"]
 
 ## TODO
 
-Regular expression support for header option, ignore_lines option, Numo::NArray support, method to write .xls and .xlsx
+Regular expression support for header option, ignore_lines option, Numo::NArray support, method to write .xls and .xlsx, index option of write method.
 
 ## Development
 
