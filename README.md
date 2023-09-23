@@ -33,7 +33,7 @@ df_d = EasySheetIo.read("sample.xlsx", format: "daru")   ## Daru::DataFrame (Def
 df_r = EasySheetIo.read("sample.xlsx", format: "rover")  ## Rover::DataFrame
 ```
 
-## Header, Ignored Lines
+## Header, Index, Ignored Lines
 You can designate header row number with *header:* option.
 
 If you want to ignore some beggining lines, you use *line_from:* option.
