@@ -53,7 +53,7 @@ module EasySheetIo
 
 	# ##Generate Array from EXCEL File, and convert it to Hash or DataFrame.
 	# **opt candidate= line_from: 1, header: 0)
-	def read_excel(path, sheet_i: 0, format: :daru, encoding: "utf-8", **opt)
+	def read_excel(path, sheet_i: 0, format: :daru, encoding: "utf-8", index: nil, **opt)
 		a2d = open_excel(path, sheet_i, encoding: encoding) # Get 2D Array
 
 		if format.to_s == "array"
