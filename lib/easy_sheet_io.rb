@@ -93,7 +93,7 @@ module EasySheetIo
 		# -----------------------------
 		
 		# Selecct Column---------------
-		output = output.map { _1[column_from...column_until] } column_from || column_until
+		output = output.map { _1[column_from...column_until] } if column_from || column_until
 			
 		# Define Data Array------------
 		output_transpose = output[0].zip(*output[1..])
