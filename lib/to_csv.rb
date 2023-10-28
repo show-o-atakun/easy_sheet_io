@@ -51,7 +51,13 @@ class Daru::DataFrame
 	# rover not suppoted yet about indexing
 	def set_index!(indexcolumn)
 		self.index = self[indexcolumn]
-	end 
+	end
+
+	# To revice pivot index
+	def simplify_multi_index(vector_names_ary)
+		self.vectors = Daru::Index.new(vector_names_ary)
+		self.index = Daru::Vector.new(self.index.to_a.map{_1[0]})
+	end
 
 	alias_method :addvec, :add_vector
 end

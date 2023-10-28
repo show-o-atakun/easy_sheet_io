@@ -71,8 +71,9 @@ module EasySheetIo
 	
 	# Convert 2d Array to Hash
 	## header: nil -> Default Headers(:column1, column2,...) are generated.
-	## Option line_ignored is not implemented yet.
+	## Option line_ignored, is not implemented yet.
 	def to_hash(array2d, line_from: 1, line_until: nil, line_ignored: nil,
+		                 column_from: nil, column_until: nil, 
 		                 header: 0, symbol_header: false,
 						 replaced_by_nil: [], analyze_type: true)
 				## TODO.. column_from: , column_until:
@@ -86,10 +87,15 @@ module EasySheetIo
 			lfrom = lines_ary.find_index{ line_from === _1 } if lf_reg
 			luntil = (lines_ary.length-1) - lines_ary.reverse.find_index{ line_until === _1 } if lu_reg
 		end
+
+		# And get originally array-----
+		output = array2d[lfrom...luntil]
 		# -----------------------------
+		
+		# Selecct Column---------------
+		output = output.map { _1[column_from...column_until] } column_from || column_until
 			
 		# Define Data Array------------
-		output = array2d[lfrom...luntil]
 		output_transpose = output[0].zip(*output[1..])
 		output_transpose = fix_array(output_transpose, replaced_by_nil, analyze_type)
 		# -----------------------------
