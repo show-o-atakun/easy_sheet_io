@@ -57,9 +57,10 @@ If you want to include the end of lines clearly, write *line_until: nil*. (Of co
 
 You can designate *column_from:* option, and *column_until:* option. But regular expressions are not supported for these options at present.
 
+### Additional features about header
+
 Note that header and index option require absolute position, that is, they are selected independently of line(column)_from option.
 
-### Additional features about header
 When you set *header: nil*, then default headers ("column0", "column1", ...) are set.
 
 If you want symbol headers instead of string, then set *symbol_header: true*. 
