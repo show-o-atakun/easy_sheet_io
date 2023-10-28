@@ -55,6 +55,10 @@ Note that line_until option means the designated line is **not** included in out
 
 If you want to include the end of lines clearly, write *line_until: nil*. (Of course, it is the default setting of read method.)
 
+You can designate *column_from:* option, and *column_until:* option. But regular expressions are not supported at present.
+
+Please be aware that you can set Daru::DataFrame index from only selected column with column_from(until) option. The relation between these options is different from header and line_from(until).
+
 ### Additional features about header
 When you set *header: nil*, then default headers ("column0", "column1", ...) are set.
 
