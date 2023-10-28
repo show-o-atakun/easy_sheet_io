@@ -37,14 +37,17 @@ module EasySheetIo
 		if format.to_s == "array"
 			return csv
 		elsif format.to_s == "hash"
-			return to_hash(csv, **opt)
+			h, i = to_hash(csv, **opt)
+			return h
 		else # include format.nil? (in this case, convert to Daru::DF).
-			ans = to_df(to_hash(csv, **opt), format: format)
+
+			h, ind_orig = to_hash(csv, index: index, **opt)
+			ans = to_df(h, format: format)
 			
 			# Converting Encode and Setting index.. rover not supported yet
 			if format.to_s == "daru" || format.nil?
 				ans.convert_enc!(from: encoding, to: "utf-8")
-				ans.set_index!(index) if index
+				ans.index = ind_orig if index
 			end
 			
 			return ans
@@ -59,11 +62,13 @@ module EasySheetIo
 		if format.to_s == "array"
 			return a2d
 		elsif format.to_s == "hash"
-			return to_hash(a2d, **opt)
+			h, i = to_hash(a2d, **opt)
+			return h
 		else # include format.nil?
-			ans = to_df(to_hash(a2d, **opt), format: format)
+			h, ind_orig = to_hash(a2d, index: index, **opt)
+			ans = to_df(h, format: format)
 			if format.to_s == "daru" || format.nil?
-				ans.set_index!(index) if index
+				ans.index = ind_orig if index
 			end
 			return ans
 		end
@@ -75,7 +80,8 @@ module EasySheetIo
 	def to_hash(array2d, line_from: 1, line_until: nil, line_ignored: nil,
 		                 column_from: nil, column_until: nil, 
 		                 header: 0, symbol_header: false,
-						 replaced_by_nil: [], analyze_type: true)
+						 replaced_by_nil: [], analyze_type: true,
+	                     index: nil)
 				## TODO.. column_from: , column_until:
 		
 		# Define Read Range------------		
@@ -90,6 +96,10 @@ module EasySheetIo
 
 		# And get originally array-----
 		output = array2d[lfrom...luntil]
+		# -----------------------------
+
+		# Then get data of index-------
+		ind_orig = index ? output.map{ _1[index] } : nil
 		# -----------------------------
 		
 		# Selecct Column---------------
@@ -112,12 +122,16 @@ module EasySheetIo
 		# -----------------------------
 
 		# Make Hash(Header => Data Array)  
-		return hd.each_with_object({}).with_index {|(hdr, hash), i| hash[hdr]=output_transpose[i]}
+		return hd.each_with_object({}).with_index {|(hdr, hash), i| hash[hdr]=output_transpose[i]}, ind_orig
 	end
 	
 	# Convert Hash to DataFrame
 	def to_df(d, format: :daru)
-		return format.to_s == "daru" || format.nil? ? Daru::DataFrame.new(d) : Rover::DataFrame.new(d)
+		if format.to_s == "daru" || format.nil?
+			Daru::DataFrame.new(d)
+		else
+			Rover::DataFrame.new(d)
+		end
 	end
 	
 	#----------------------------
