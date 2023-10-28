@@ -101,7 +101,13 @@ module EasySheetIo
 		# -----------------------------
 
 		# Define Header----------------
-		hd = header.nil? ? [*0...(output.longest_line)].map{"column#{_1}"} : check_header(array2d[header])
+		if header
+			hd = check_header(array2d[header])[column_from...column_until]
+		else
+			hd = [*0...(output.longest_line)].map{"column#{_1}"}
+		end
+		# hd = header.nil? ? [*0...(output.longest_line)].map{"column#{_1}"} : check_header(array2d[header])
+		
 		hd = hd.map { _1.intern } if symbol_header
 		# -----------------------------
 
