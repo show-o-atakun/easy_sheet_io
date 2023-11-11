@@ -47,7 +47,11 @@ module EasySheetIo
 			# Converting Encode and Setting index.. rover not supported yet
 			if format.to_s == "daru" || format.nil?
 				ans.convert_enc!(from: encoding, to: "utf-8")
-				ans.index = ind_orig if index
+				begin
+					ans.index = ind_orig if index
+				rescue
+					warn "Indexing failed (Parhaps due to duplicated index)."
+				end
 			end
 			
 			return ans
@@ -68,7 +72,11 @@ module EasySheetIo
 			h, ind_orig = to_hash(a2d, index: index, **opt)
 			ans = to_df(h, format: format)
 			if format.to_s == "daru" || format.nil?
-				ans.index = ind_orig if index
+				begin
+					ans.index = ind_orig if index
+				rescue
+					warn "Indexing failed (Parhaps due to duplicated index)."
+				end
 			end
 			return ans
 		end
